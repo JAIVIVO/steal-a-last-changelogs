@@ -1,200 +1,453 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steal a Peak - Official Changelogs</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Steal a Peak - Official Changelog</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
+                    colors: {
+                        wood: {
+                            900: '#1a100c',
+                            800: '#2a1a14',
+                            700: '#3d261d',
+                            600: '#54362a',
+                        },
+                        amber: {
+                            glow: '#f59e0b',
+                            warm: '#d97706',
+                            soft: '#fef3c7',
+                        },
+                        frost: {
+                            100: '#e0f2fe',
+                            300: '#7dd3fc',
+                            500: '#0ea5e9',
+                            900: '#0c4a6e',
+                        },
+                        autumn: {
+                            leaf: '#c2410c',
+                            gold: '#b45309',
+                        }
+                    },
                     fontFamily: {
-                        heading: ['Cinzel', 'serif'],
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #451a03 100%);
-            background-attachment: fixed;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #f8fafc;
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        canvas#ambient-canvas {
+        ::-webkit-scrollbar-track {
+            background: #1a100c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3d261d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d97706;
+        }
+
+        /* Glassmorphism & Cozy glow */
+        .glass-panel {
+            background: rgba(42, 26, 20, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-panel-hover:hover {
+            border-color: rgba(245, 158, 11, 0.35);
+            box-shadow: 0 10px 40px -10px rgba(245, 158, 11, 0.2);
+        }
+
+        .amber-glow-text {
+            text-shadow: 0 0 12px rgba(245, 158, 11, 0.5);
+        }
+
+        #particles-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 1;
-        }
-        .content-wrap {
-            position: relative;
-            z-index: 10;
-        }
-        .glass-card {
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 0;
         }
     </style>
 </head>
-<body class="min-h-screen pb-16">
+<body class="bg-wood-900 text-stone-200 font-sans min-h-screen relative selection:bg-amber-warm selection:text-white">
 
-    <canvas id="ambient-canvas"></canvas>
+    <!-- Canvas for Autumn Leaves & Snowflakes -->
+    <canvas id="particles-canvas"></canvas>
 
-    <div class="content-wrap">
-        <!-- Site Out / Maintenance Banner -->
-        <div class="bg-amber-600/90 text-white font-medium px-4 py-2 text-center text-sm flex items-center justify-center gap-2 backdrop-blur-md">
-            <span class="flex h-2.5 w-2.5 relative">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-200 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
-            </span>
-            <span><strong>Site Status:</strong> Site Out / Under Maintenance for v2.0.0 Update Preparation</span>
+    <!-- Main Container -->
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col min-h-screen">
+        
+        <!-- SITE OUT / STATUS BANNER -->
+        <div id="siteStatusBanner" class="w-full mb-6 p-3 rounded-xl border flex items-center justify-between gap-4 text-xs sm:text-sm font-medium glass-panel transition-all">
+            <!-- Dynamic banner content via JS -->
         </div>
 
-        <!-- Header -->
-        <header class="max-w-5xl mx-auto px-6 pt-12 pb-8 text-center">
-            <h1 class="font-heading text-4xl md:text-6xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-sky-200 to-cyan-400 mb-3">
+        <!-- HEADER / HERO -->
+        <header class="text-center my-6 md:my-10">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-wood-800/80 border border-amber-warm/40 text-amber-300 text-sm font-medium mb-6 shadow-lg backdrop-blur-md">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-glow animate-pulse"></span>
+                <span>Current Version: <strong id="heroCurrentVer">v2.0.0</strong> — Frost & Fire Era</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-cinzel font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-frost-300 mb-4 amber-glow-text">
                 STEAL A PEAK
             </h1>
-            <p class="text-slate-300 text-lg max-w-xl mx-auto">
-                Official Game Changelogs & Update History
+            <p class="text-lg sm:text-xl text-stone-400 font-light max-w-2xl mx-auto italic">
+                "Climb higher, tread quieter. Claim the mountain peaks across shifting seasons."
             </p>
+            
+            <div class="mt-4 text-xs tracking-widest text-amber-500/80 uppercase font-cinzel">
+                Official Developer Patch Notes & Game Updates
+            </div>
         </header>
 
-        <!-- Main Content Container -->
-        <main class="max-w-4xl mx-auto px-4">
-            <div id="changelog-container" class="space-y-8"></div>
+        <!-- QUICK STATS -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            <div class="glass-panel p-4 rounded-xl text-center border-t-2 border-t-amber-warm/60">
+                <div class="text-stone-400 text-xs font-medium uppercase tracking-wider mb-1">Latest Patch</div>
+                <div class="text-xl sm:text-2xl font-bold text-amber-300 font-cinzel" id="statLatestVer">v2.0.0</div>
+            </div>
+            <div class="glass-panel p-4 rounded-xl text-center border-t-2 border-t-frost-500/60">
+                <div class="text-stone-400 text-xs font-medium uppercase tracking-wider mb-1">New Features</div>
+                <div class="text-xl sm:text-2xl font-bold text-frost-300 font-cinzel">+28</div>
+            </div>
+            <div class="glass-panel p-4 rounded-xl text-center border-t-2 border-t-amber-warm/60">
+                <div class="text-stone-400 text-xs font-medium uppercase tracking-wider mb-1">Bug Fixes</div>
+                <div class="text-xl sm:text-2xl font-bold text-amber-300 font-cinzel">60+</div>
+            </div>
+            <div class="glass-panel p-4 rounded-xl text-center border-t-2 border-t-frost-500/60">
+                <div class="text-stone-400 text-xs font-medium uppercase tracking-wider mb-1">Season</div>
+                <div class="text-xl sm:text-2xl font-bold text-frost-300 font-cinzel flex items-center justify-center gap-1">
+                    <i class="fa-solid fa-snowflake text-sm"></i> Winter
+                </div>
+            </div>
+        </div>
+
+        <!-- SEARCH AND FILTER BAR -->
+        <section class="glass-panel p-4 sm:p-6 rounded-2xl mb-12 shadow-2xl">
+            <div class="flex flex-col md:flex-row gap-4 justify-between items-center">
+                <!-- Search Input -->
+                <div class="relative w-full md:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-sm"></i>
+                    <input type="text" id="searchInput" placeholder="Search patch notes (e.g. stealth, ice)..." 
+                           class="w-full bg-wood-900/80 border border-wood-600 focus:border-amber-500 rounded-xl pl-10 pr-4 py-2.5 text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-500/30 transition-all">
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex flex-wrap gap-2 w-full md:w-auto justify-start md:justify-end" id="filterContainer">
+                    <button data-filter="all" class="filter-btn active px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-amber-warm text-wood-900 font-semibold transition-all">
+                        All
+                    </button>
+                    <button data-filter="new" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-wood-800 text-stone-300 hover:bg-wood-700 hover:text-white border border-wood-600 transition-all">
+                        <i class="fa-solid fa-sparkles text-amber-400 mr-1 text-xs"></i> New
+                    </button>
+                    <button data-filter="fix" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-wood-800 text-stone-300 hover:bg-wood-700 hover:text-white border border-wood-600 transition-all">
+                        <i class="fa-solid fa-wrench text-rose-400 mr-1 text-xs"></i> Fixes
+                    </button>
+                    <button data-filter="balance" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-wood-800 text-stone-300 hover:bg-wood-700 hover:text-white border border-wood-600 transition-all">
+                        <i class="fa-solid fa-scale-balanced text-emerald-400 mr-1 text-xs"></i> Balance
+                    </button>
+                    <button data-filter="visual" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-wood-800 text-stone-300 hover:bg-wood-700 hover:text-white border border-wood-600 transition-all">
+                        <i class="fa-solid fa-palette text-frost-300 mr-1 text-xs"></i> Visuals
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHANGELOG TIMELINE -->
+        <main class="relative pl-4 sm:pl-8 border-l-2 border-wood-700 space-y-12 mb-16" id="changelogList">
+            <!-- Rendered automatically from JS data below -->
         </main>
 
-        <footer class="mt-16 text-center text-slate-400 text-sm">
-            <p>© 2026 Steal a Peak. All rights reserved.</p>
+        <!-- NO RESULTS MESSAGE -->
+        <div id="noResults" class="hidden text-center py-12 glass-panel rounded-2xl mb-12">
+            <i class="fa-solid fa-wind text-4xl text-amber-500/50 mb-3 animate-bounce"></i>
+            <h3 class="text-xl font-cinzel text-stone-300 font-bold mb-1">No matching patch notes found</h3>
+            <p class="text-sm text-stone-400">Try modifying your search query or reset category filters.</p>
+        </div>
+
+        <!-- NEWSLETTER / NOTIFICATION SECTION -->
+        <section class="glass-panel p-6 sm:p-8 rounded-2xl text-center mb-12 border-t-2 border-t-amber-glow/60 relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-amber-glow/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <h3 class="text-2xl font-cinzel font-bold text-amber-200 mb-2">Never miss a patch update!</h3>
+            <p class="text-sm text-stone-300 max-w-xl mx-auto mb-6">
+                Subscribe to get email alerts whenever a new update or emergency hotfix drops for Steal a Peak.
+            </p>
+            <form onsubmit="handleSubscribe(event)" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                <input type="email" required placeholder="Enter your email..." 
+                       class="bg-wood-900/90 border border-wood-600 focus:border-amber-500 rounded-xl px-4 py-2.5 text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-500/30 flex-grow">
+                <button type="submit" class="bg-gradient-to-r from-amber-warm to-amber-600 hover:from-amber-500 hover:to-amber-warm text-wood-900 font-bold text-sm px-6 py-2.5 rounded-xl transition-all shadow-lg shrink-0">
+                    Subscribe
+                </button>
+            </form>
+            <div id="subscribeSuccess" class="hidden text-xs text-emerald-400 mt-3 font-medium">
+                <i class="fa-solid fa-check-circle mr-1"></i> Subscribed successfully! You'll receive upcoming release alerts.
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="mt-auto border-t border-wood-700/60 pt-6 text-center text-xs text-stone-400 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                &copy; 2026 <strong>Steal a Peak Studio</strong>. All rights reserved.
+            </div>
+            <div class="flex items-center gap-4 text-stone-400">
+                <a href="#" class="hover:text-amber-400 transition"><i class="fa-brands fa-discord text-base"></i></a>
+                <a href="#" class="hover:text-amber-400 transition"><i class="fa-brands fa-steam text-base"></i></a>
+                <a href="#" class="hover:text-amber-400 transition"><i class="fa-brands fa-twitter text-base"></i></a>
+                <a href="#" class="hover:text-amber-400 transition"><i class="fa-brands fa-github text-base"></i></a>
+            </div>
         </footer>
+
     </div>
 
+    <!-- JAVASCRIPT & EASY DATA EDITING SECTION -->
     <script>
-        // DANE DLA WERSJI V2.0.0
+        /* 
+         ===================================================================
+         * HOW TO ADD A NEW CHANGELOG ENTRY OR EDIT SITE STATUS:
+         * 1. Change `SITE_STATUS` object below (set status to 'online', 'maintenance', or 'out').
+         * 2. To add a new version, add a new entry object to the TOP of the `CHANGELOG_DATA` array!
+         ===================================================================
+        */
+
+        // 1. SITE OUT / STATUS CONFIGURATION
+        const SITE_STATUS = {
+            // Options: 'online' | 'maintenance' | 'out'
+            status: 'online', 
+            message: 'All Steal a Peak game servers and site services are fully operational!',
+            outMessage: 'SERVERS CURRENTLY DOWN / MAINTENANCE IN PROGRESS. EXPECT DELAYS.',
+            noticeTag: 'v2.0.0 LIVE NOW'
+        };
+
+        // 2. CHANGELOG DATA ARRAY (Starts from v2.0.0 down to v1.0.0)
         const CHANGELOG_DATA = [
             {
                 version: "v2.0.0",
-                title: "Frost & Fire Era — Pre-Release",
+                title: "Frost & Fire Era Expansion",
                 badge: "Major Update",
-                badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/30",
-                date: "Upcoming Release",
+                date: "November 4, 2026",
                 icon: "fa-snowflake",
-                iconBg: "bg-cyan-500",
-                summary: "Version 2.0.0 framework initialized. Update details and fixes are currently being compiled.",
-                stats: {
-                    newFeatures: 0,
-                    bugFixes: 0,
-                    balanceChanges: 0,
-                    visualUI: 0
-                },
+                iconBg: "bg-frost-500",
+                summary: "Welcome to Season 2! Introducing the volcanic icy peak 'Blizzard Ridge', thermal gear mechanics, dynamic avalanches, and full cross-play lobby support.",
                 changes: [
-                    // TUTAJ DODAJESZ SWOJE ZMIANY W PRZYSZŁOŚCI, NP.:
-                    // { type: "new", title: "New Feature:", desc: "Opis nowej funkcji..." },
-                    // { type: "fix", title: "Bug Fix:", desc: "Opis naprawionego błędu..." }
+                    { type: "new", title: "New Map - Blizzard Ridge:", desc: "Conquer frozen glaciers and active geothermal vents high above the treeline." },
+                    { type: "new", title: "Thermal Gear & Warming Huts:", desc: "Manage your body temperature near campfires or risk freezing debuffs." },
+                    { type: "visual", title: "Avalanche Visual Effects:", desc: "Real-time physics-based snow slides triggered by loud noises or explosives." },
+                    { type: "balance", title: "Grappling Hook Cooldown:", desc: "Increased hook cooldown by 2.5s on icy surfaces to encourage stamina management." },
+                    { type: "fix", title: "Climbing Glitch:", desc: "Resolved bug where players clipping into ledge corners got launched into space." }
+                ]
+            },
+            {
+                version: "v1.4.2",
+                title: "Winter Prep Hotfix",
+                badge: "Hotfix",
+                date: "October 18, 2026",
+                icon: "fa-wrench",
+                iconBg: "bg-amber-warm",
+                summary: "Minor patch addressing server latency spikes during peak hour mountain raids and balancing guard vision in heavy fog.",
+                changes: [
+                    { type: "fix", title: "Server Desync:", desc: "Fixed position desync when sliding down steep icy slopes." },
+                    { type: "balance", title: "Rival Guard AI:", desc: "Reduced guard detection angle in heavy snowfall by 15%." }
+                ]
+            },
+            {
+                version: "v1.3.0",
+                title: "Golden Autumn Update",
+                badge: "Major Update",
+                date: "September 20, 2026",
+                icon: "fa-leaf",
+                iconBg: "bg-autumn-leaf",
+                summary: "Step into the autumn canopy of Amber Valley. Hidden leaf-trap mechanics, rusty grappling hooks, and dense maple foliage stealth zones.",
+                changes: [
+                    { type: "new", title: "Amber Valley Map:", desc: "Explore golden birch forests, abandoned log cabins, and misty gorge bridges." },
+                    { type: "new", title: "Leaf Pile Hiding Mechanics:", desc: "Hide inside large autumn leaf piles to ambush rivals or escape patrol guards." },
+                    { type: "visual", title: "Falling Leaves Particles:", desc: "Dynamic leaf drop intensity depending on wind velocity." },
+                    { type: "balance", title: "Footstep Sound Radius:", desc: "Dry leaves increase walking sound radius by 20% unless crouching." }
+                ]
+            },
+            {
+                version: "v1.1.0",
+                title: "Stealth & Gear Overhaul",
+                badge: "Update",
+                date: "July 12, 2026",
+                icon: "fa-mask",
+                iconBg: "bg-wood-600",
+                summary: "Reworked night stealth mechanics, decoy flares, shadow camouflage, and climbing pick stamina consumption.",
+                changes: [
+                    { type: "new", title: "Decoy Sound Grenades:", desc: "Throw noise makers to lure guards away from treasure vaults." },
+                    { type: "balance", title: "Stamina Rebalance:", desc: "Sprint duration increased by 10% on flat ground." },
+                    { type: "fix", title: "Loot Chest Duplication:", desc: "Fixed chest exploit when opening loot simultaneously in co-op." }
+                ]
+            },
+            {
+                version: "v1.0.0",
+                title: "Official Global Release",
+                badge: "Release",
+                date: "May 1, 2026",
+                icon: "fa-flag-checkered",
+                iconBg: "bg-amber-500",
+                summary: "Steal a Peak officially launches worldwide! Climb mountains, outsmart guards, steal the peak trophy, and make a clean escape.",
+                changes: [
+                    { type: "new", title: "Game Launch:", desc: "Initial launch featuring 3 distinct mountain peaks, solo & 4-player co-op modes." }
                 ]
             }
         ];
 
-        function getBadgeClass(type) {
-            switch(type) {
-                case 'new': return 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
-                case 'fix': return 'bg-rose-500/20 text-rose-300 border border-rose-500/30';
-                case 'balance': return 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
-                case 'visual': return 'bg-purple-500/20 text-purple-300 border border-purple-500/30';
-                default: return 'bg-slate-700 text-slate-300';
+        // -------------------------------------------------------------
+        // RENDER SITE STATUS BANNER
+        // -------------------------------------------------------------
+        function renderStatusBanner() {
+            const banner = document.getElementById('siteStatusBanner');
+            if (SITE_STATUS.status === 'online') {
+                banner.className = "w-full mb-6 p-3 rounded-xl border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 flex items-center justify-between gap-4 text-xs sm:text-sm font-medium glass-panel";
+                banner.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span><strong class="uppercase font-bold tracking-wider">[Status: Online]</strong> ${SITE_STATUS.message}</span>
+                    </div>
+                    <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-300 rounded-md border border-emerald-500/40 text-xs shrink-0">${SITE_STATUS.noticeTag}</span>
+                `;
+            } else if (SITE_STATUS.status === 'maintenance') {
+                banner.className = "w-full mb-6 p-3 rounded-xl border border-amber-500/40 bg-amber-950/40 text-amber-300 flex items-center justify-between gap-4 text-xs sm:text-sm font-medium glass-panel";
+                banner.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                        <span><strong class="uppercase font-bold tracking-wider">[Maintenance]</strong> ${SITE_STATUS.message}</span>
+                    </div>
+                    <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 rounded-md border border-amber-500/40 text-xs shrink-0">Site / Game Maintenance</span>
+                `;
+            } else {
+                // SITE OUT / DOWN
+                banner.className = "w-full mb-6 p-3 rounded-xl border border-rose-500/50 bg-rose-950/50 text-rose-200 flex items-center justify-between gap-4 text-xs sm:text-sm font-medium glass-panel";
+                banner.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
+                        <span><strong class="uppercase font-bold tracking-wider">[SITE OUT / OFFLINE]</strong> ${SITE_STATUS.outMessage}</span>
+                    </div>
+                    <span class="px-2.5 py-1 bg-rose-500/30 text-rose-200 rounded-md border border-rose-500/50 text-xs shrink-0">Service Down</span>
+                `;
             }
         }
 
+        // -------------------------------------------------------------
+        // RENDER CHANGELOG LIST FROM DATA
+        // -------------------------------------------------------------
+        const badgeStyles = {
+            new: { label: "New", class: "bg-amber-500/20 text-amber-300 border-amber-500/30" },
+            fix: { label: "Fix", class: "bg-rose-500/20 text-rose-300 border-rose-500/30" },
+            balance: { label: "Balance", class: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30" },
+            visual: { label: "Visual", class: "bg-frost-500/20 text-frost-300 border-frost-500/30" }
+        };
+
         function renderChangelogs() {
-            const container = document.getElementById('changelog-container');
-            if (!container) return;
+            const container = document.getElementById('changelogList');
             container.innerHTML = '';
 
-            CHANGELOG_DATA.forEach((log) => {
-                const hasChanges = log.changes && log.changes.length > 0;
-                const cardHtml = `
-                    <div class="glass-card rounded-2xl p-6 md:p-8 shadow-xl">
-                        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700/60 pb-4 mb-6">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl ${log.iconBg} flex items-center justify-center text-white text-lg shadow-lg">
-                                    <i class="fa-solid ${log.icon}"></i>
-                                </div>
-                                <div>
-                                    <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-                                        ${log.version}
-                                        <span class="text-xs px-2.5 py-1 rounded-full border ${log.badgeColor} font-sans font-medium">
-                                            ${log.badge}
-                                        </span>
-                                    </h2>
-                                    <p class="text-sm text-slate-400">${log.title} • <span class="text-amber-400/90">${log.date}</span></p>
+            CHANGELOG_DATA.forEach((entry, index) => {
+                const article = document.createElement('article');
+                article.className = "version-entry relative transition-all duration-300";
+                
+                // Get unique types inside this version
+                const types = [...new Set(entry.changes.map(c => c.type))].join(' ');
+                article.setAttribute('data-categories', types);
+
+                const changesHTML = entry.changes.map(ch => {
+                    const b = badgeStyles[ch.type] || badgeStyles.new;
+                    return `
+                        <div class="change-item" data-type="${ch.type}">
+                            <div class="flex items-start gap-2.5">
+                                <span class="mt-0.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border shrink-0 ${b.class}">${b.label}</span>
+                                <div class="text-sm">
+                                    <strong class="text-stone-100">${ch.title}</strong> ${ch.desc}
                                 </div>
                             </div>
                         </div>
+                    `;
+                }).join('');
 
-                        <p class="text-slate-300 mb-6 italic">${log.summary}</p>
+                article.innerHTML = `
+                    <div class="absolute -left-[25px] sm:-left-[41px] top-1.5 w-6 h-6 sm:w-7 sm:h-7 rounded-full ${entry.iconBg} border-4 border-wood-900 flex items-center justify-center text-wood-900 text-xs shadow-lg">
+                        <i class="fa-solid ${entry.icon} text-[10px]"></i>
+                    </div>
 
-                        <!-- Stats Grid (Zamiast 0 wstawi się tu liczba z log.stats) -->
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 text-center">
-                            <div class="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                                <div class="text-2xl font-bold text-emerald-400">${log.stats.newFeatures}</div>
-                                <div class="text-xs text-slate-400 uppercase font-semibold">New Features</div>
+                    <div class="glass-panel glass-panel-hover rounded-2xl p-5 sm:p-7 transition-all">
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-4 border-b border-wood-700/60">
+                            <div>
+                                <div class="flex items-center gap-3 flex-wrap">
+                                    <h2 class="text-2xl font-bold font-cinzel text-amber-200">${entry.version} — ${entry.title}</h2>
+                                    <span class="px-2.5 py-0.5 rounded text-xs font-semibold bg-wood-800 text-amber-400 border border-amber-500/30">${entry.badge}</span>
+                                </div>
+                                <time class="text-xs text-stone-400 mt-1 block"><i class="fa-regular fa-calendar-alt mr-1.5"></i>${entry.date}</time>
                             </div>
-                            <div class="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                                <div class="text-2xl font-bold text-rose-400">${log.stats.bugFixes}</div>
-                                <div class="text-xs text-slate-400 uppercase font-semibold">Bug Fixes</div>
-                            </div>
-                            <div class="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                                <div class="text-2xl font-bold text-amber-400">${log.stats.balanceChanges}</div>
-                                <div class="text-xs text-slate-400 uppercase font-semibold">Balance</div>
-                            </div>
-                            <div class="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                                <div class="text-2xl font-bold text-purple-400">${log.stats.visualUI}</div>
-                                <div class="text-xs text-slate-400 uppercase font-semibold">Visuals & UI</div>
-                            </div>
+                            <button class="toggle-details-btn text-xs bg-wood-800 hover:bg-wood-700 text-stone-300 px-3 py-1.5 rounded-lg border border-wood-600 transition flex items-center gap-1.5">
+                                <span>Collapse</span>
+                                <i class="fa-solid fa-chevron-up transition-transform duration-300"></i>
+                            </button>
                         </div>
 
-                        <!-- Lista Zmian -->
-                        <div class="space-y-3">
-                            ${hasChanges ? log.changes.map(item => `
-                                <div class="flex items-start gap-3 bg-slate-800/30 p-3 rounded-lg border border-slate-700/40">
-                                    <span class="text-xs font-bold px-2 py-1 rounded uppercase ${getBadgeClass(item.type)}">${item.type}</span>
-                                    <div class="text-sm">
-                                        <strong class="text-slate-200">${item.title}</strong>
-                                        <span class="text-slate-300">${item.desc}</span>
-                                    </div>
-                                </div>
-                            `).join('') : `
-                                <div class="text-center py-6 border border-dashed border-slate-700/60 rounded-xl text-slate-400 text-sm">
-                                    <i class="fa-solid fa-hourglass-start text-xl mb-2 text-amber-400"></i>
-                                    <p>No logged changes yet for this version.</p>
-                                </div>
-                            `}
+                        <div class="version-details space-y-4">
+                            <p class="text-sm text-stone-300 leading-relaxed italic border-l-2 border-amber-warm/60 pl-3 py-0.5">
+                                ${entry.summary}
+                            </p>
+                            <div class="space-y-3">
+                                ${changesHTML}
+                            </div>
                         </div>
                     </div>
                 `;
-                container.innerHTML += cardHtml;
+
+                container.appendChild(article);
+            });
+
+            // Re-bind collapse toggle buttons
+            document.querySelectorAll('.toggle-details-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const article = btn.closest('.version-entry');
+                    const details = article.querySelector('.version-details');
+                    const icon = btn.querySelector('i');
+                    const textSpan = btn.querySelector('span');
+
+                    if (details.classList.contains('hidden')) {
+                        details.classList.remove('hidden');
+                        icon.style.transform = 'rotate(0deg)';
+                        textSpan.textContent = 'Collapse';
+                    } else {
+                        details.classList.add('hidden');
+                        icon.style.transform = 'rotate(180deg)';
+                        textSpan.textContent = 'Expand';
+                    }
+                });
             });
         }
 
-        // Wywołanie funkcji wyświetlającej
-        renderChangelogs();
-
-        // Animacja tła (Śnieg i Liście)
-        const canvas = document.getElementById('ambient-canvas');
+        // -------------------------------------------------------------
+        // ANIMATED CANVAS (SNOW & LEAVES PARTICLES)
+        // -------------------------------------------------------------
+        const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
@@ -204,31 +457,150 @@
             height = canvas.height = window.innerHeight;
         });
 
-        const particles = Array.from({ length: 40 }, () => ({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            size: Math.random() * 3 + 1,
-            speedY: Math.random() * 1 + 0.5,
-            speedX: Math.random() * 0.6 - 0.3,
-            type: Math.random() > 0.5 ? 'snow' : 'leaf',
-            color: Math.random() > 0.5 ? '#D97706' : '#38BDF8'
-        }));
+        const particles = [];
+        const particleCount = 45;
 
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => {
-                p.y += p.speedY;
-                p.x += p.speedX;
-                if (p.y > height) { p.y = -10; p.x = Math.random() * width; }
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * -height;
+                this.size = Math.random() * 4 + 2;
+                this.speedY = Math.random() * 1.2 + 0.5;
+                this.speedX = Math.random() * 0.8 - 0.4;
+                this.type = Math.random() > 0.4 ? 'snow' : 'leaf';
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+                this.opacity = Math.random() * 0.6 + 0.3;
 
+                if (this.type === 'leaf') {
+                    const colors = ['#c2410c', '#b45309', '#d97706', '#ea580c'];
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.size = Math.random() * 6 + 4;
+                } else {
+                    const colors = ['#ffffff', '#e0f2fe', '#bae6fd'];
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                }
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += Math.sin(this.y * 0.01) + this.speedX;
+                this.rotation += this.rotationSpeed;
+                if (this.y > height + 20) { this.reset(); }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
                 ctx.beginPath();
-                ctx.fillStyle = p.type === 'snow' ? 'rgba(255, 255, 255, 0.7)' : p.color;
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                if (this.type === 'snow') {
+                    ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+                } else {
+                    ctx.moveTo(0, -this.size);
+                    ctx.quadraticCurveTo(this.size, 0, 0, this.size);
+                    ctx.quadraticCurveTo(-this.size, 0, 0, -this.size);
+                }
                 ctx.fill();
-            });
-            requestAnimationFrame(animate);
+                ctx.restore();
+            }
         }
-        animate();
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+
+        // -------------------------------------------------------------
+        // SEARCH AND FILTER LOGIC
+        // -------------------------------------------------------------
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const noResults = document.getElementById('noResults');
+
+        let currentFilter = 'all';
+        let currentSearchQuery = '';
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => {
+                    b.classList.remove('active', 'bg-amber-warm', 'text-wood-900', 'font-semibold');
+                    b.classList.add('bg-wood-800', 'text-stone-300');
+                });
+                btn.classList.add('active', 'bg-amber-warm', 'text-wood-900', 'font-semibold');
+                btn.classList.remove('bg-wood-800', 'text-stone-300');
+
+                currentFilter = btn.getAttribute('data-filter');
+                filterChangelog();
+            });
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            currentSearchQuery = e.target.value.toLowerCase().trim();
+            filterChangelog();
+        });
+
+        function filterChangelog() {
+            const versionEntries = document.querySelectorAll('.version-entry');
+            let visibleCount = 0;
+
+            versionEntries.forEach(entry => {
+                const changeItems = entry.querySelectorAll('.change-item');
+                const entryText = entry.textContent.toLowerCase();
+                const matchesSearch = currentSearchQuery === '' || entryText.includes(currentSearchQuery);
+
+                let hasMatchingCategory = false;
+
+                changeItems.forEach(item => {
+                    const itemType = item.getAttribute('data-type');
+                    const itemText = item.textContent.toLowerCase();
+
+                    const categoryMatch = (currentFilter === 'all' || itemType === currentFilter);
+                    const itemSearchMatch = (currentSearchQuery === '' || itemText.includes(currentSearchQuery));
+
+                    if (categoryMatch && itemSearchMatch) {
+                        item.style.display = 'block';
+                        hasMatchingCategory = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                if (matchesSearch && hasMatchingCategory) {
+                    entry.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    entry.style.display = 'none';
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+
+        function handleSubscribe(event) {
+            event.preventDefault();
+            const successMsg = document.getElementById('subscribeSuccess');
+            successMsg.classList.remove('hidden');
+            event.target.reset();
+            setTimeout(() => successMsg.classList.add('hidden'), 4000);
+        }
+
+        // Initialize Page
+        window.onload = function() {
+            renderStatusBanner();
+            renderChangelogs();
+            animateParticles();
+        };
     </script>
 </body>
 </html>
