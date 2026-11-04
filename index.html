@@ -84,6 +84,7 @@
     </div>
 
     <script>
+        // DANE DLA WERSJI V2.0.0
         const CHANGELOG_DATA = [
             {
                 version: "v2.0.0",
@@ -101,19 +102,30 @@
                     visualUI: 0
                 },
                 changes: [
-                    // TUTAJ DODAJESZ SWOJE ZMIANY (przykład poniżej):
-                    // { type: "new", title: "New Feature:", desc: "Opis nowości..." },
+                    // TUTAJ DODAJESZ SWOJE ZMIANY W PRZYSZŁOŚCI, NP.:
+                    // { type: "new", title: "New Feature:", desc: "Opis nowej funkcji..." },
                     // { type: "fix", title: "Bug Fix:", desc: "Opis naprawionego błędu..." }
                 ]
             }
         ];
 
+        function getBadgeClass(type) {
+            switch(type) {
+                case 'new': return 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+                case 'fix': return 'bg-rose-500/20 text-rose-300 border border-rose-500/30';
+                case 'balance': return 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
+                case 'visual': return 'bg-purple-500/20 text-purple-300 border border-purple-500/30';
+                default: return 'bg-slate-700 text-slate-300';
+            }
+        }
+
         function renderChangelogs() {
             const container = document.getElementById('changelog-container');
+            if (!container) return;
             container.innerHTML = '';
 
             CHANGELOG_DATA.forEach((log) => {
-                const hasChanges = log.changes.length > 0;
+                const hasChanges = log.changes && log.changes.length > 0;
                 const cardHtml = `
                     <div class="glass-card rounded-2xl p-6 md:p-8 shadow-xl">
                         <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700/60 pb-4 mb-6">
@@ -135,7 +147,7 @@
 
                         <p class="text-slate-300 mb-6 italic">${log.summary}</p>
 
-                        <!-- Stats Grid -->
+                        <!-- Stats Grid (Zamiast 0 wstawi się tu liczba z log.stats) -->
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 text-center">
                             <div class="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
                                 <div class="text-2xl font-bold text-emerald-400">${log.stats.newFeatures}</div>
@@ -155,7 +167,7 @@
                             </div>
                         </div>
 
-                        <!-- Changes List -->
+                        <!-- Lista Zmian -->
                         <div class="space-y-3">
                             ${hasChanges ? log.changes.map(item => `
                                 <div class="flex items-start gap-3 bg-slate-800/30 p-3 rounded-lg border border-slate-700/40">
@@ -178,18 +190,45 @@
             });
         }
 
-        function getBadgeClass(type) {
-            switch(type) {
-                case 'new': return 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
-                case 'fix': return 'bg-rose-500/20 text-rose-300 border border-rose-500/30';
-                case 'balance': return 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
-                case 'visual': return 'bg-purple-500/20 text-purple-300 border border-purple-500/30';
-                default: return 'bg-slate-700 text-slate-300';
-            }
-        }
-
+        // Wywołanie funkcji wyświetlającej
         renderChangelogs();
 
-        // Background Animation
+        // Animacja tła (Śnieg i Liście)
         const canvas = document.getElementById('ambient-canvas');
-        const ctx =
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const particles = Array.from({ length: 40 }, () => ({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            size: Math.random() * 3 + 1,
+            speedY: Math.random() * 1 + 0.5,
+            speedX: Math.random() * 0.6 - 0.3,
+            type: Math.random() > 0.5 ? 'snow' : 'leaf',
+            color: Math.random() > 0.5 ? '#D97706' : '#38BDF8'
+        }));
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.y += p.speedY;
+                p.x += p.speedX;
+                if (p.y > height) { p.y = -10; p.x = Math.random() * width; }
+
+                ctx.beginPath();
+                ctx.fillStyle = p.type === 'snow' ? 'rgba(255, 255, 255, 0.7)' : p.color;
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
