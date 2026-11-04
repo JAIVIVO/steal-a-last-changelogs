@@ -107,6 +107,12 @@
 
         <!-- HEADER / HERO -->
         <header class="text-center my-6 md:my-10">
+            <!-- TOP GAME BANNER IMAGE -->
+            <div class="mb-8 max-w-3xl mx-auto">
+                <img src="baner.jpg" alt="Steal a Last - Spooky Skeletons Event" 
+                     class="w-full h-auto rounded-2xl border-2 border-amber-warm/40 shadow-2xl hover:border-amber-warm/80 transition-all duration-300">
+            </div>
+
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-wood-800/80 border border-amber-warm/40 text-amber-300 text-sm font-medium mb-6 shadow-lg backdrop-blur-md">
                 <span class="w-2.5 h-2.5 rounded-full bg-amber-glow animate-pulse"></span>
                 <span>Current Version: <strong id="heroCurrentVer">v2.0.0</strong> — Frost & Fire Era</span>
@@ -189,7 +195,7 @@
             <p class="text-sm text-stone-400">Try modifying your search query or reset category filters.</p>
         </div>
 
-        <!-- GAME LINKS SECTION (ZAMIAST NEWSLETTERA) -->
+        <!-- GAME LINKS SECTION -->
         <section class="glass-panel p-6 sm:p-8 rounded-2xl text-center mb-12 border-t-2 border-t-amber-glow/60 relative overflow-hidden">
             <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-amber-glow/10 rounded-full blur-3xl pointer-events-none"></div>
             
@@ -228,9 +234,8 @@
 
     </div>
 
-    <!-- JAVASCRIPT & EASY DATA EDITING SECTION -->
+    <!-- JAVASCRIPT SECTION -->
     <script>
-        // 1. SITE OUT / STATUS CONFIGURATION
         const SITE_STATUS = {
             status: 'online', 
             message: 'All Steal a Peak game servers and site services are fully operational!',
@@ -238,7 +243,6 @@
             noticeTag: 'v2.0.0 LIVE NOW'
         };
 
-        // 2. CHANGELOG DATA ARRAY
         const CHANGELOG_DATA = [
             {
                 version: "v2.0.0",
@@ -372,7 +376,7 @@
             });
         }
 
-        // ANIMATED CANVAS (SNOW & LEAVES)
+        // ANIMATED CANVAS PARTICLES
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         let width = canvas.width = window.innerWidth;
