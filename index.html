@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steal a Peak - Official Changelogs</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['Cinzel', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #451a03 100%);
+            background-attachment: fixed;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f8fafc;
+        }
+        canvas#ambient-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .content-wrap {
+            position: relative;
+            z-index: 10;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-16">
+
+    <canvas id="ambient-canvas"></canvas>
+
+    <div class="content-wrap">
+        <!-- Site Out / Maintenance Banner -->
+        <div class="bg-amber-600/90 text-white font-medium px-4 py-2 text-center text-sm flex items-center justify-center gap-2 backdrop-blur-md">
+            <span class="flex h-2.5 w-2.5 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-200 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+            </span>
+            <span><strong>Site Status:</strong> Site Out / Under Maintenance for v2.0.0 Update Preparation</span>
+        </div>
+
+        <!-- Header -->
+        <header class="max-w-5xl mx-auto px-6 pt-12 pb-8 text-center">
+            <h1 class="font-heading text-4xl md:text-6xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-sky-200 to-cyan-400 mb-3">
+                STEAL A PEAK
+            </h1>
+            <p class="text-slate-300 text-lg max-w-xl mx-auto">
+                Official Game Changelogs & Update History
+            </p>
+        </header>
+
+        <!-- Main Content Container -->
+        <main class="max-w-4xl mx-auto px-4">
+            <div id="changelog-container" class="space-y-8"></div>
+        </main>
+
+        <footer class="mt-16 text-center text-slate-400 text-sm">
+            <p>© 2026 Steal a Peak. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        const CHANGELOG_DATA = [
+            {
+                version: "v2.0.0",
+                title: "Frost & Fire Era — Pre-Release",
+                badge: "Major Update",
+                badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/30",
+                date: "Upcoming Release",
+                icon: "fa-snowflake",
+                iconBg: "bg-cyan-500",
+                summary: "Version 2.0.0 framework initialized. Update details and fixes are currently being compiled.",
+                stats: {
+                    newFeatures: 0,
+                    bugFixes: 0,
+                    balanceChanges: 0,
+                    visualUI: 0
+                },
+                changes: [
+                    // TUTAJ DODAJESZ SWOJE ZMIANY (przykład poniżej):
+                    // { type: "new", title: "New Feature:", desc: "Opis nowości..." },
+                    // { type: "fix", title: "Bug Fix:", desc: "Opis naprawionego błędu..." }
+                ]
+            }
+        ];
+
+        function renderChangelogs() {
+            const container = document.getElementById('changelog-container');
+            container.innerHTML = '';
+
+            CHANGELOG_DATA.forEach((log) => {
+                const hasChanges = log.changes.length > 0;
+                const cardHtml = `
+                    <div class="glass-card rounded-2xl p-6 md:p-8 shadow-xl">
+                        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700/60 pb-4 mb-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl ${log.iconBg} flex items-center justify-center text-white text-lg shadow-lg">
+                                    <i class="fa-solid ${log.icon}"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                                        ${log.version}
+                                        <span class="text-xs px-2.5 py-1 rounded-full border ${log.badgeColor} font-sans font-medium">
+                                            ${log.badge}
+                                        </span>
+                                    </h2>
+                                    <p class="text-sm text-slate-400">${log.title} • <span class="text-amber-400/90">${log.date}</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-slate-300 mb-6 italic">${log.summary}</p>
+
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 text-center">
+                            <div class="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+                                <div class="text-2xl font-bold text-emerald-400">${log.stats.newFeatures}</div>
+                                <div class="text-xs text-slate-400 uppercase font-semibold">New Features</div>
+                            </div>
+                            <div class="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+                                <div class="text-2xl font-bold text-rose-400">${log.stats.bugFixes}</div>
+                                <div class="text-xs text-slate-400 uppercase font-semibold">Bug Fixes</div>
+                            </div>
+                            <div class="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+                                <div class="text-2xl font-bold text-amber-400">${log.stats.balanceChanges}</div>
+                                <div class="text-xs text-slate-400 uppercase font-semibold">Balance</div>
+                            </div>
+                            <div class="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+                                <div class="text-2xl font-bold text-purple-400">${log.stats.visualUI}</div>
+                                <div class="text-xs text-slate-400 uppercase font-semibold">Visuals & UI</div>
+                            </div>
+                        </div>
+
+                        <!-- Changes List -->
+                        <div class="space-y-3">
+                            ${hasChanges ? log.changes.map(item => `
+                                <div class="flex items-start gap-3 bg-slate-800/30 p-3 rounded-lg border border-slate-700/40">
+                                    <span class="text-xs font-bold px-2 py-1 rounded uppercase ${getBadgeClass(item.type)}">${item.type}</span>
+                                    <div class="text-sm">
+                                        <strong class="text-slate-200">${item.title}</strong>
+                                        <span class="text-slate-300">${item.desc}</span>
+                                    </div>
+                                </div>
+                            `).join('') : `
+                                <div class="text-center py-6 border border-dashed border-slate-700/60 rounded-xl text-slate-400 text-sm">
+                                    <i class="fa-solid fa-hourglass-start text-xl mb-2 text-amber-400"></i>
+                                    <p>No logged changes yet for this version.</p>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        function getBadgeClass(type) {
+            switch(type) {
+                case 'new': return 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+                case 'fix': return 'bg-rose-500/20 text-rose-300 border border-rose-500/30';
+                case 'balance': return 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
+                case 'visual': return 'bg-purple-500/20 text-purple-300 border border-purple-500/30';
+                default: return 'bg-slate-700 text-slate-300';
+            }
+        }
+
+        renderChangelogs();
+
+        // Background Animation
+        const canvas = document.getElementById('ambient-canvas');
+        const ctx =
