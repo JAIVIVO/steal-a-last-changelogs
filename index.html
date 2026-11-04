@@ -189,23 +189,29 @@
             <p class="text-sm text-stone-400">Try modifying your search query or reset category filters.</p>
         </div>
 
-        <!-- NEWSLETTER / NOTIFICATION SECTION -->
+        <!-- GAME LINKS SECTION (ZAMIAST NEWSLETTERA) -->
         <section class="glass-panel p-6 sm:p-8 rounded-2xl text-center mb-12 border-t-2 border-t-amber-glow/60 relative overflow-hidden">
             <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-amber-glow/10 rounded-full blur-3xl pointer-events-none"></div>
             
-            <h3 class="text-2xl font-cinzel font-bold text-amber-200 mb-2">Never miss a patch update!</h3>
+            <h3 class="text-2xl font-cinzel font-bold text-amber-200 mb-2">Join the Community & Play!</h3>
             <p class="text-sm text-stone-300 max-w-xl mx-auto mb-6">
-                Subscribe to get email alerts whenever a new update or emergency hotfix drops for Steal a Peak.
+                Jump into the game on Roblox or join our official Discord server to stay updated and meet other players.
             </p>
-            <form onsubmit="handleSubscribe(event)" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                <input type="email" required placeholder="Enter your email..." 
-                       class="bg-wood-900/90 border border-wood-600 focus:border-amber-500 rounded-xl px-4 py-2.5 text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-500/30 flex-grow">
-                <button type="submit" class="bg-gradient-to-r from-amber-warm to-amber-600 hover:from-amber-500 hover:to-amber-warm text-wood-900 font-bold text-sm px-6 py-2.5 rounded-xl transition-all shadow-lg shrink-0">
-                    Subscribe
-                </button>
-            </form>
-            <div id="subscribeSuccess" class="hidden text-xs text-emerald-400 mt-3 font-medium">
-                <i class="fa-solid fa-check-circle mr-1"></i> Subscribed successfully! You'll receive upcoming release alerts.
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
+                <!-- GAME LINK BUTTON -->
+                <a href="https://www.roblox.com/games/114276773603060/Steal-a-Last" target="_blank" rel="noopener noreferrer" 
+                   class="w-full sm:w-auto flex-1 bg-gradient-to-r from-amber-warm to-amber-600 hover:from-amber-500 hover:to-amber-warm text-wood-900 font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-gamepad text-lg"></i>
+                    <span>Game Link</span>
+                </a>
+
+                <!-- DISCORD LINK BUTTON -->
+                <a href="https://discord.gg/fGg6hTkEKg" target="_blank" rel="noopener noreferrer" 
+                   class="w-full sm:w-auto flex-1 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-discord text-lg"></i>
+                    <span>Discord Link</span>
+                </a>
             </div>
         </section>
 
@@ -215,10 +221,8 @@
                 &copy; 2026 <strong>Steal a Peak Studio</strong>. All rights reserved.
             </div>
             <div class="flex items-center gap-4 text-stone-400">
-                <a href="#" class="hover:text-amber-400 transition"><i class="fa-brands fa-discord text-base"></i></a>
-                <a href="#" class="hover:text-amber-400 transition"><i class="fa-brands fa-steam text-base"></i></a>
-                <a href="#" class="hover:text-amber-400 transition"><i class="fa-brands fa-twitter text-base"></i></a>
-                <a href="#" class="hover:text-amber-400 transition"><i class="fa-brands fa-github text-base"></i></a>
+                <a href="https://discord.gg/fGg6hTkEKg" target="_blank" class="hover:text-amber-400 transition"><i class="fa-brands fa-discord text-base"></i></a>
+                <a href="https://www.roblox.com/games/114276773603060/Steal-a-Last" target="_blank" class="hover:text-amber-400 transition"><i class="fa-solid fa-gamepad text-base"></i></a>
             </div>
         </footer>
 
@@ -226,46 +230,30 @@
 
     <!-- JAVASCRIPT & EASY DATA EDITING SECTION -->
     <script>
-        /* 
-         ===================================================================
-         * HOW TO ADD A NEW CHANGELOG ENTRY OR EDIT SITE STATUS:
-         * 1. Change `SITE_STATUS` object below (set status to 'online', 'maintenance', or 'out').
-         * 2. To add a new version, add a new entry object to the TOP of the `CHANGELOG_DATA` array!
-         ===================================================================
-        */
-
         // 1. SITE OUT / STATUS CONFIGURATION
         const SITE_STATUS = {
-            // Options: 'online' | 'maintenance' | 'out'
             status: 'online', 
             message: 'All Steal a Peak game servers and site services are fully operational!',
-            outMessage: 'SERVERS CURRENTLY DOWN / MAINTENANCE IN PROGRESS. EXPECT DELAYS.',
+            outMessage: 'GAME IS PUBLIC',
             noticeTag: 'v2.0.0 LIVE NOW'
         };
 
-        // 2. CHANGELOG DATA ARRAY (Starts from v2.0.0 down to v1.0.0)
+        // 2. CHANGELOG DATA ARRAY
         const CHANGELOG_DATA = [
             {
                 version: "v2.0.0",
-                title: "Frost & Fire Era Expansion",
+                title: "SITE OUT",
                 badge: "Major Update",
                 date: "November 4, 2026",
                 icon: "fa-snowflake",
                 iconBg: "bg-frost-500",
-                summary: "Welcome to Season 2! Introducing the volcanic icy peak 'Blizzard Ridge', thermal gear mechanics, dynamic avalanches, and full cross-play lobby support.",
+                summary: "Welcome to Steal a Peak v2",
                 changes: [
-                    { type: "new", title: "New Map - Blizzard Ridge:", desc: "Conquer frozen glaciers and active geothermal vents high above the treeline." },
-                    { type: "new", title: "Thermal Gear & Warming Huts:", desc: "Manage your body temperature near campfires or risk freezing debuffs." },
-                    { type: "visual", title: "Avalanche Visual Effects:", desc: "Real-time physics-based snow slides triggered by loud noises or explosives." },
-                    { type: "balance", title: "Grappling Hook Cooldown:", desc: "Increased hook cooldown by 2.5s on icy surfaces to encourage stamina management." },
-                    { type: "fix", title: "Climbing Glitch:", desc: "Resolved bug where players clipping into ledge corners got launched into space." }
+                    { type: "new", title: "SITE OUT!", desc: "Version 2.0.0 is officially ready." }
                 ]
-            },
+            }
         ];
 
-        // -------------------------------------------------------------
-        // RENDER SITE STATUS BANNER
-        // -------------------------------------------------------------
         function renderStatusBanner() {
             const banner = document.getElementById('siteStatusBanner');
             if (SITE_STATUS.status === 'online') {
@@ -287,7 +275,6 @@
                     <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 rounded-md border border-amber-500/40 text-xs shrink-0">Site / Game Maintenance</span>
                 `;
             } else {
-                // SITE OUT / DOWN
                 banner.className = "w-full mb-6 p-3 rounded-xl border border-rose-500/50 bg-rose-950/50 text-rose-200 flex items-center justify-between gap-4 text-xs sm:text-sm font-medium glass-panel";
                 banner.innerHTML = `
                     <div class="flex items-center gap-2">
@@ -299,9 +286,6 @@
             }
         }
 
-        // -------------------------------------------------------------
-        // RENDER CHANGELOG LIST FROM DATA
-        // -------------------------------------------------------------
         const badgeStyles = {
             new: { label: "New", class: "bg-amber-500/20 text-amber-300 border-amber-500/30" },
             fix: { label: "Fix", class: "bg-rose-500/20 text-rose-300 border-rose-500/30" },
@@ -313,11 +297,10 @@
             const container = document.getElementById('changelogList');
             container.innerHTML = '';
 
-            CHANGELOG_DATA.forEach((entry, index) => {
+            CHANGELOG_DATA.forEach((entry) => {
                 const article = document.createElement('article');
                 article.className = "version-entry relative transition-all duration-300";
                 
-                // Get unique types inside this version
                 const types = [...new Set(entry.changes.map(c => c.type))].join(' ');
                 article.setAttribute('data-categories', types);
 
@@ -328,7 +311,7 @@
                             <div class="flex items-start gap-2.5">
                                 <span class="mt-0.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border shrink-0 ${b.class}">${b.label}</span>
                                 <div class="text-sm">
-                                    <strong class="text-stone-100">${ch.title}</strong> ${ch.desc}
+                                    <strong class="text-stone-100">${ch.title}</strong> ${ch.desc || ''}
                                 </div>
                             </div>
                         </div>
@@ -369,7 +352,6 @@
                 container.appendChild(article);
             });
 
-            // Re-bind collapse toggle buttons
             document.querySelectorAll('.toggle-details-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const article = btn.closest('.version-entry');
@@ -390,9 +372,7 @@
             });
         }
 
-        // -------------------------------------------------------------
-        // ANIMATED CANVAS (SNOW & LEAVES PARTICLES)
-        // -------------------------------------------------------------
+        // ANIMATED CANVAS (SNOW & LEAVES)
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         let width = canvas.width = window.innerWidth;
@@ -463,9 +443,7 @@
             requestAnimationFrame(animateParticles);
         }
 
-        // -------------------------------------------------------------
         // SEARCH AND FILTER LOGIC
-        // -------------------------------------------------------------
         const searchInput = document.getElementById('searchInput');
         const filterButtons = document.querySelectorAll('.filter-btn');
         const noResults = document.getElementById('noResults');
@@ -531,14 +509,6 @@
             } else {
                 noResults.classList.add('hidden');
             }
-        }
-
-        function handleSubscribe(event) {
-            event.preventDefault();
-            const successMsg = document.getElementById('subscribeSuccess');
-            successMsg.classList.remove('hidden');
-            event.target.reset();
-            setTimeout(() => successMsg.classList.add('hidden'), 4000);
         }
 
         // Initialize Page
