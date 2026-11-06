@@ -99,11 +99,6 @@
 
     <!-- Main Container -->
     <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col min-h-screen">
-        
-        <!-- SITE OUT / STATUS BANNER -->
-        <div id="siteStatusBanner" class="w-full mb-6 p-3 rounded-xl border flex items-center justify-between gap-4 text-xs sm:text-sm font-medium glass-panel transition-all">
-            <!-- Dynamic banner content via JS -->
-        </div>
 
         <!-- HEADER / HERO -->
         <header class="text-center my-6 md:my-10">
@@ -236,13 +231,6 @@
 
     <!-- JAVASCRIPT SECTION -->
     <script>
-        const SITE_STATUS = {
-            status: 'online', 
-            message: 'All Steal a Peak game servers and site services are fully operational!',
-            outMessage: 'GAME IS PUBLIC',
-            noticeTag: 'v2.0.1 LIVE NOW'
-        };
-
         const CHANGELOG_DATA = [
             {
                 version: "v2.0.2",
@@ -288,38 +276,6 @@
                 ]
             }
         ];
-
-        function renderStatusBanner() {
-            const banner = document.getElementById('siteStatusBanner');
-            if (SITE_STATUS.status === 'online') {
-                banner.className = "w-full mb-6 p-3 rounded-xl border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 flex items-center justify-between gap-4 text-xs sm:text-sm font-medium glass-panel";
-                banner.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                        <span><strong class="uppercase font-bold tracking-wider">[Status: Online]</strong> ${SITE_STATUS.message}</span>
-                    </div>
-                    <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-300 rounded-md border border-emerald-500/40 text-xs shrink-0">${SITE_STATUS.noticeTag}</span>
-                `;
-            } else if (SITE_STATUS.status === 'maintenance') {
-                banner.className = "w-full mb-6 p-3 rounded-xl border border-amber-500/40 bg-amber-950/40 text-amber-300 flex items-center justify-between gap-4 text-xs sm:text-sm font-medium glass-panel";
-                banner.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
-                        <span><strong class="uppercase font-bold tracking-wider">[Maintenance]</strong> ${SITE_STATUS.message}</span>
-                    </div>
-                    <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 rounded-md border border-amber-500/40 text-xs shrink-0">Site / Game Maintenance</span>
-                `;
-            } else {
-                banner.className = "w-full mb-6 p-3 rounded-xl border border-rose-500/50 bg-rose-950/50 text-rose-200 flex items-center justify-between gap-4 text-xs sm:text-sm font-medium glass-panel";
-                banner.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
-                        <span><strong class="uppercase font-bold tracking-wider">[SITE OUT / OFFLINE]</strong> ${SITE_STATUS.outMessage}</span>
-                    </div>
-                    <span class="px-2.5 py-1 bg-rose-500/30 text-rose-200 rounded-md border border-rose-500/50 text-xs shrink-0">Service Down</span>
-                `;
-            }
-        }
 
         const badgeStyles = {
             new: { label: "New", class: "bg-amber-500/20 text-amber-300 border-amber-500/30" },
@@ -548,7 +504,6 @@
 
         // Initialize Page
         window.onload = function() {
-            renderStatusBanner();
             renderChangelogs();
             animateParticles();
         };
